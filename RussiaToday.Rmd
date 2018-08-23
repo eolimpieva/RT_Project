@@ -1,0 +1,120 @@
+---
+title: "RT"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(haven)
+library(tidyverse)
+library("readxl")
+
+
+```
+
+```{r}
+#Import data
+RT <-  read_dta("CorrectedStataFile.dta")
+RT
+nrow(RT) #70272
+
+```
+
+```{r}
+#Channel variable
+channel <- group_by(RT, Channel)
+summarise(channel) #9 channels
+
+```
+
+RT				
+RT America				
+RT Arabic				
+RT Chinese				
+RT Deutsch				
+RT en Español				
+RT France				
+RT UK				
+RT на русском
+
+```{r}
+#RT America
+RT_Ch <- filter(RT, Channel=="RT America")
+RT_Ch
+nrow(RT_Ch) # 5752 observations for RT America
+
+#RT
+
+RT_RT <- filter(RT, Channel=="RT")
+RT_RT
+nrow(RT_RT)
+
+#Total English-speaking
+Tot_Eng <- nrow(RT_Ch) + nrow(RT_RT)
+Tot_Eng #13833
+
+#RT Russia
+RT_Russia <- filter(RT, Channel=="RT на русском")
+View(RT_Russia)
+nrow(RT_Russia) #13623
+
+#RT France
+RT_France <- filter(RT, Channel=="RT France")
+View(RT_France)
+nrow(RT_France) #6145
+
+```
+
+```{r}
+#Category variable
+
+cat <- group_by(RT, Category)
+summarize(cat)
+
+```
+
+1 AFR      
+2 ASIA     
+3 DROP     
+4 EUR      
+5 HUMINT   
+6 LASA     
+7 MENA     
+8 RUS      
+9 SOUTHASIA
+10 TECH     
+11 UKR      
+12 USA 
+
+```{r}
+#Al Jazeera
+
+setwd("~/Google Drive/RUSSIA TODAY/RT_files_new/Al_Jazeera")
+
+AJ_17_18 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/Al_Jazeera/AJE_2017_to_2018.csv", header = F)
+nrow(AJ_17_18) #11155
+
+AJ_15_17 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/Al_Jazeera/AJE_2015_to_2017.csv", header = F)
+nrow(AJ_15_17) #10676
+
+AJ_13_15 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/Al_Jazeera/AJE_2013_to_2015.csv", header = F)
+nrow(AJ_13_15) #17175
+
+```
+
+```{r}
+#BBC
+BBC_13_15 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/BBC/BBC_2013_to_2015.csv", header = F)
+BBC_13_15
+
+BBC_15_17 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/BBC/BBC_2015_to_2017.csv", header = F)
+BBC_15_17
+
+BBC_17_18 <- read.csv("~/Google Drive/RUSSIA TODAY/RT_files_new/BBC/BBC_2017_to_2018.csv", header = F)
+BBC_17_18
+
+```
